@@ -1,0 +1,13 @@
+BMITableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:Query
+  Resource:
+    - ${self:custom.BMITable.arn}
+    - !Join [
+        "/",
+        ["${self:custom.BMITable.arn}", "index", "userIdAndTimestamp"],
+      ]

@@ -7,16 +7,16 @@ const CATEGORY_RISK_MAPPING = {
     SeverelyObese: 'HighRisk',
     VerySeverelyObese: 'VeryHighRisk'
 };
-let unCached = 0;
+// let unCached = 0;
 const bmiCache = {};
 /**
- * 
- * @param {integer} weightInKg 
- * @param {integer} heightInCm 
+ * @param {integer} weightInKg
+ * @param {integer} heightInCm
  * @returns  Decimal number indicating BMI value for given weight and height
  * @throws IllegalArgument exception when either weight, or height are given values <= 0
  */
-module.exports.calculateBMI = (weightInKg, heightInCm) => {
+
+export const calculateBMI = (weightInKg, heightInCm) => {
     try {
         if (heightInCm <= 0 || weightInKg <= 0) {
             throw new InvalidArgumentException(`Invalid values provided for height/weight expected numbers > 0, given values ${heightInCm}, ${weightInKg}`);
@@ -25,25 +25,23 @@ module.exports.calculateBMI = (weightInKg, heightInCm) => {
         return Number((weightInKg / (heightInM * heightInM)).toFixed(2));
     } catch (err) {
         if (err instanceof InvalidArgumentException) {
-            throw new InvalidArgumentException(err)
+            throw new InvalidArgumentException(err);
         }
-        throw new Error(err)
+        throw new Error(err);
     }
-}
+};
 
-module.exports.getBMICategroy = (bmiValue) => {
+export const getBMICategroy = (bmiValue) => {
     let category;
     if (bmiCache[bmiValue]) {
         return bmiCache[bmiValue];
     }
-    unCached++;
-    console.log(bmiValue)
     if (bmiValue <= 18.4) {
         category = 'UnderWeight';
     } else if (bmiValue >= 18.5 && bmiValue <= 24.9) {
         category = 'NormalWeight';
     } else if (bmiValue >= 25 && bmiValue <= 29.9) {
-        category = 'OverWeight'
+        category = 'OverWeight';
     } else if (bmiValue >= 30 && bmiValue <= 34.9) {
         category = 'ModeratelyObese';
     } else if (bmiValue >= 35 && bmiValue <= 39.9) {
@@ -52,9 +50,9 @@ module.exports.getBMICategroy = (bmiValue) => {
         category = 'VerySeverelyObese';
     }
     bmiCache[bmiValue] = category;
-    return category
-}
+    return category;
+};
 
-module.exports.getRiskCategory = (bmiCategory) => {
+export const getRiskCategory = (bmiCategory) => {
     return CATEGORY_RISK_MAPPING[bmiCategory];
-}
+};

@@ -20,13 +20,22 @@ service: bmi-service
 # Check out our docs for more details
 frameworkVersion: "2"
 
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
 provider:
   name: aws
   runtime: nodejs12.x
   memorySize: 256
-  # iamRoleStatements:
-  #   - ${file(iam/BMITableIAM.yml):BMITable.yml}
-
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    - ${file(iam/BMITableIAM.yml):BMITableIAM}
+  environment:
+    BMI_TABLE: ${self:custom.BMITable.name}
+resources:
+  Resources:
+    BMITable: ${file(resources/BMITable.yml):BMITable}
 functions:
   bmi:
     handler: src/handlers/bmi.handler
@@ -34,3 +43,8 @@ functions:
       - http:
           method: POST
           path: /bmi
+
+custom:
+  BMITable:
+    name: !Ref BMITable
+    arn: !GetAtt BMITable.Arn

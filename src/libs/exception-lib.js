@@ -1,23 +1,18 @@
-class InvalidArgumentException extends Error {
+export class InvalidArgumentException extends Error {
     constructor(...params) {
-        super(...params)
+        super(...params);
         this.name = 'InvalidArgumentException';
         if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, InvalidArgumentException)
+            Error.captureStackTrace(this, InvalidArgumentException);
         }
     }
 }
-class FileNotFoundError extends Error {
+export class FileNotFoundError extends Error {
     constructor(...params) {
-        super(...params)
+        super(...params);
         this.name = 'FileNotFoundError';
         if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, InvalidArgumentException)
+            Error.captureStackTrace(this, InvalidArgumentException);
         }
     }
-}
-
-module.exports = {
-    InvalidArgumentException: InvalidArgumentException,
-    FileNotFoundError: FileNotFoundError
-}
+};
