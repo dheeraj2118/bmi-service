@@ -4,7 +4,7 @@ node('master'){
 def weekly(){
     stage("weekly"){
         sh '''
-            echo "Hello world" 
+            docker ps
         '''
     }
 }
